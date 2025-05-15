@@ -41,7 +41,7 @@ class App:
         empty_index = self.board.index(0)
         row, col = empty_index // self.N, empty_index % self.N
         neighbors = []
-        
+
         for dr, dc in [(-1,0), (1,0), (0,-1), (0,1)]:
             if 0 <= row+dr < self.N and 0 <= col+dc < self.N:
                 neighbors.append((row+dr)*self.N + (col+dc))
@@ -61,7 +61,7 @@ class App:
                 index = y * self.N + x
                 if index in self.get_empty_neighbors():
                     self.swap_tile(index)
-            
+
             # Shuffle button (right panel)
             btn_x = self.screen_width - self.panel_width + 10
             btn_y = self.screen_height - 40
@@ -71,7 +71,6 @@ class App:
 
     def draw(self):
         pyxel.cls(1)
-        
         # Draw puzzle tiles (centered square)
         for i, value in enumerate(self.board):
             x = self.panel_width + (i % self.N) * self.tile_size
@@ -79,7 +78,7 @@ class App:
             if value != 0:
                 pyxel.rect(x, y, self.tile_size-1, self.tile_size-1, 6)
                 pyxel.text(x + self.tile_size//2 - 4, y + self.tile_size//2 - 4, str(value), 5)
-        
+
         # Left panel - Instructions
         pyxel.rect(0, 0, self.panel_width, self.screen_height, 12)
         pyxel.text(5, 15, "HOW TO PLAY:", 0)
@@ -91,22 +90,19 @@ class App:
         pyxel.text(5, 105, "Arrange 1-8", 0)
         pyxel.text(5, 115, "with empty", 0)
         pyxel.text(5, 125, "at bottom", 0)
-        
+
         # Right panel - Controls
         right_panel_x = self.screen_width - self.panel_width
         pyxel.rect(right_panel_x, 0, self.panel_width, self.screen_height, 12)
         pyxel.text(right_panel_x + 10, 15, "MOVES:", 0)
         pyxel.text(right_panel_x + 10, 35, str(self.moves), 7)
-        
+
         # Shuffle button
         btn_x = right_panel_x + 10
         btn_y = self.screen_height - 40
         pyxel.rect(btn_x, btn_y, self.panel_width - 20, 30, 5)
         pyxel.text(btn_x + 8, btn_y + 10, "SHUFFLE", 7)
-        
-        # Custom cursor
-        pyxel.rect(pyxel.mouse_x, pyxel.mouse_y, 2, 2, 7)
-        
+
         # Victory overlay (centered in puzzle area)
         if self.is_solved():
             overlay_x = self.panel_width + 20
